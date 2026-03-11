@@ -1,5 +1,6 @@
 <launch>
   <arg name="enable_all_modules_auto_mode"/>
+  <arg name="use_deprecated_behavior_planning" default="false"/>
   <arg name="is_simulation"/>
   <arg name="input_objects_topic_name"/>
   <arg name="input_pointcloud_topic_name"/>
@@ -10,8 +11,17 @@
     <!-- behavior planning module -->
     <group>
       <push-ros-namespace namespace="behavior_planning"/>
-      <group>
+      <group unless="$(var use_deprecated_behavior_planning)">
         <include file="$(find-pkg-share tier4_planning_launch)/launch/scenario_planning/lane_driving/behavior_planning/behavior_planning.launch.xml">
+          <arg name="container_type" value="component_container_mt"/>
+          <arg name="enable_all_modules_auto_mode" value="$(var enable_all_modules_auto_mode)"/>
+          <arg name="is_simulation" value="$(var is_simulation)"/>
+          <arg name="input_objects_topic_name" value="$(var input_objects_topic_name)"/>
+          <arg name="input_pointcloud_topic_name" value="$(var input_pointcloud_topic_name)"/>
+        </include>
+      </group>
+      <group if="$(var use_deprecated_behavior_planning)">
+        <include file="$(find-pkg-share tier4_planning_launch)/launch/scenario_planning/lane_driving/behavior_planning/behavior_planning_deprecated.launch.xml">
           <arg name="container_type" value="component_container_mt"/>
           <arg name="enable_all_modules_auto_mode" value="$(var enable_all_modules_auto_mode)"/>
           <arg name="is_simulation" value="$(var is_simulation)"/>
