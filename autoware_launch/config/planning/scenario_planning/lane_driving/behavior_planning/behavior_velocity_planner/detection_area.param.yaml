@@ -3,9 +3,9 @@
     detection_area:
       stop_margin: 0.0
       target_filtering:
-        pointcloud: true
+        pointcloud: false
         unknown: false
-        car: false
+        car: true
         truck: false
         bus: false
         trailer: false
